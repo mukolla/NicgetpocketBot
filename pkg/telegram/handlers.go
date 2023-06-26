@@ -8,11 +8,7 @@ import (
 	"net/url"
 )
 
-const (
-	commandStart            = "start"
-	replayStartTemplate     = "Привіт! Для того щоб зберігати ссилки у своєму Pocket аккаунті тобі потрібно, перейти по ссилці:\n%s"
-	replayAlreadyAuthorized = "Привіт, ти вже авторизований присилай посилання, а я його збережу."
-)
+const commandStart = "start"
 
 func (b *Bot) handleMessage(message *tgbotapi.Message) error {
 
@@ -20,22 +16,22 @@ func (b *Bot) handleMessage(message *tgbotapi.Message) error {
 
 	_, err := url.ParseRequestURI(message.Text)
 	if err != nil {
-		return b.sendMessage(message, "Це посилання не валідне!")
+		return errorInvalidUrl
 	}
 
 	accessToken, err := b.getAccessToken(message.Chat.ID)
 	if err != nil {
-		return b.sendMessage(message, "Ви не атворизовані, використання команду /start для авторизації")
+		return errorAuthorized
 	}
 
 	if err := b.pocketClient.Add(context.Background(), pocket.AddInput{
 		AccessToken: accessToken,
 		URL:         message.Text,
 	}); err != nil {
-		return b.sendMessage(message, "Халлепа, викиникла помилка при зберженні посилання. Спробуйте пізніше.")
+		return errorUnableToSave
 	}
 
-	return b.sendMessage(message, "Посилання успішно збереженно")
+	return b.sendMessage(message, b.messages.Response.SavedSuccessfully)
 }
 
 func (b *Bot) sendMessage(message *tgbotapi.Message, messageText string) error {
@@ -60,13 +56,11 @@ func (b *Bot) handleStartCommand(message *tgbotapi.Message) error {
 		return b.initAuthorizationProcess(message)
 	}
 
-	msg := tgbotapi.NewMessage(message.Chat.ID, replayAlreadyAuthorized)
-	_, err = b.bot.Send(msg)
-	return err
+	return errorAuthorized
 }
 
 func (b *Bot) handleUnknownCommand(message *tgbotapi.Message) error {
-	msg := tgbotapi.NewMessage(message.Chat.ID, "You send command unknown command ["+message.Command()+"]")
+	msg := tgbotapi.NewMessage(message.Chat.ID, b.messages.Response.UnknownCommand+" ["+message.Command()+"]")
 	_, error := b.bot.Send(msg)
 	return error
 }

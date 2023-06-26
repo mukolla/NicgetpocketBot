@@ -1,0 +1,15 @@
+db_file: "pocketbook.db"
+bot_url: "https://t.me/Nicgetpocket_bot"
+
+message:
+  response:
+    start: "Привіт! Для того щоб зберігати ссилки у своєму Pocket аккаунті тобі потрібно, перейти по ссилці:
+%s"
+    already_authorized: "Привіт, ти вже авторизований присилай посилання, а я його збережу."
+    saved_successfully: "Посилання успішно збереженно"
+    unknown_command: "You send command unknown command"
+  errors:
+    default: "Халлепа, викиникла невідома помилка"
+    invalid_url: "Це посилання не валідне!"
+    unable_to_save: "Халлепа, викиникла помилка при зберженні посилання. Спробуйте пізніше."
+    unauthorized: "Ви не атворизовані, використання команду /start для авторизації"
