@@ -17,21 +17,27 @@ func (b *Bot) handleMessage(message *tgbotapi.Message) error {
 	_, err := url.ParseRequestURI(message.Text)
 	if err != nil {
 		return errorInvalidUrl
-	}
 
-	accessToken, err := b.getAccessToken(message.Chat.ID)
-	if err != nil {
-		return errorAuthorized
-	}
+		//msg := tgbotapi.NewMessage(message.Chat.ID, "Ok")
+		//msg.ReplyToMessageID = message.MessageID
+		//_, err := b.bot.Send(msg)
+		//return err
 
-	if err := b.pocketClient.Add(context.Background(), pocket.AddInput{
-		AccessToken: accessToken,
-		URL:         message.Text,
-	}); err != nil {
-		return errorUnableToSave
-	}
+	} else {
 
-	return b.sendMessage(message, b.messages.Response.SavedSuccessfully)
+		accessToken, err := b.getAccessToken(message.Chat.ID)
+		if err != nil {
+			return errorAuthorized
+		}
+
+		if err := b.pocketClient.Add(context.Background(), pocket.AddInput{
+			AccessToken: accessToken,
+			URL:         message.Text,
+		}); err != nil {
+			return errorUnableToSave
+		}
+		return b.sendMessage(message, b.messages.Response.SavedSuccessfully)
+	}
 }
 
 func (b *Bot) sendMessage(message *tgbotapi.Message, messageText string) error {

@@ -13,9 +13,6 @@ import (
 )
 
 func main() {
-	//Nicgetpocket_bot
-	//http://t.me/Nicgetpocket_bot
-
 	cfg, err := config.Init()
 	if err != nil {
 		log.Fatal(err)
@@ -40,7 +37,7 @@ func main() {
 
 	tokenRepository := boltdb.NewTokenRepository(db)
 
-	telegramBot := telegram.NewBot(bot, pocketClient, tokenRepository, cfg.AuthServerUrl, cfg.Message)
+	telegramBot := telegram.NewBot(bot, pocketClient, tokenRepository, cfg.AuthServerRedirectUrl, cfg.Message)
 	authorizationServer := server.NewAuthorizationServer(pocketClient, tokenRepository, cfg.TelegramBotUrl)
 
 	go func() {

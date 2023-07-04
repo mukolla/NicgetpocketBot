@@ -5,12 +5,12 @@ import (
 )
 
 type Config struct {
-	TelegramToken     string //must BindEnv
-	PocketConsumerKey string //must BindEnv
-	AuthServerUrl     string //must BindEnv
-	TelegramBotUrl    string `mapstructure:"bot_url"`
-	DbPath            string `mapstructure:"db_file"`
-	Message           Message
+	TelegramToken         string //must BindEnv
+	PocketConsumerKey     string //must BindEnv
+	AuthServerRedirectUrl string //must BindEnv
+	TelegramBotUrl        string `mapstructure:"bot_url"`
+	DbPath                string `mapstructure:"db_file"`
+	Message               Message
 }
 
 type Message struct {
@@ -64,7 +64,9 @@ func Init() (*Config, error) {
 
 func parserEnv(cfg *Config) error {
 
-	//os.Setenv("TOKEN", "******")
+	//os.Setenv("TOKEN", "***:***")
+	//os.Setenv("CONSUMER_KEY", "****")
+	//os.Setenv("AUTH_SERVER_REDIRECT_URL", "http://localh****")
 
 	if err := viper.BindEnv("token"); err != nil {
 		return err
@@ -80,6 +82,6 @@ func parserEnv(cfg *Config) error {
 
 	cfg.TelegramToken = viper.GetString("token")
 	cfg.PocketConsumerKey = viper.GetString("consumer_key")
-	cfg.AuthServerUrl = viper.GetString("auth_server_redirect_url")
+	cfg.AuthServerRedirectUrl = viper.GetString("auth_server_redirect_url")
 	return nil
 }
