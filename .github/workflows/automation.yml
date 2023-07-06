@@ -51,10 +51,10 @@ jobs:
           envs: CONTAINER_NAME
           script: |
             # Stop running container
-            docker stop $(echo $CONTAINER_NAME)
+            docker stop $(echo $CONTAINER_NAME) || true
             
             # Remove old container
-            docker rm $(echo $CONTAINER_NAME)
+            docker rm $(echo $CONTAINER_NAME) || true
             
             # Set env variables
             export TOKEN=${{ secrets.POCKET_TOKEN }}
