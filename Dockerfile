@@ -4,6 +4,7 @@ COPY . /github.com/mukolla/nicgetpocketbot/
 WORKDIR /github.com/mukolla/nicgetpocketbot/
 
 RUN go mod download
+RUN go mod tidy
 RUN go build -o ./bin/bot cmd/bot/main.go
 
 FROM alpine:latest
