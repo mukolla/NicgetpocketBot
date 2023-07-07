@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/boltdb/bolt v1.3.1
 	github.com/go-telegram-bot-api/telegram-bot-api v4.6.4+incompatible
+	github.com/spf13/viper v1.16.0
 	github.com/zhashkevych/go-pocket-sdk v0.0.0-20201222091903-35b3b269a1e8
 )
 
@@ -19,7 +20,6 @@ require (
 	github.com/spf13/cast v1.5.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/spf13/viper v1.16.0 // indirect
 	github.com/subosito/gotenv v1.4.2 // indirect
 	github.com/technoweenie/multipartstreamer v1.0.1 // indirect
 	golang.org/x/sys v0.9.0 // indirect

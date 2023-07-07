@@ -62,7 +62,7 @@ func (b *Bot) handleStartCommand(message *tgbotapi.Message) error {
 		return b.initAuthorizationProcess(message)
 	}
 
-	return errorAuthorized
+	return b.sendMessage(message, b.messages.Response.AlreadyAuthorized)
 }
 
 func (b *Bot) handleUnknownCommand(message *tgbotapi.Message) error {
